@@ -1,0 +1,19 @@
+Add your genuine screenshots here. Suggested names:
+01_github_repo.png
+02_ssh_key.png
+03_clone_ssh.png
+04_prashant_branch.png
+05_merge_main.png
+06_prashant_new.png
+07_json_update.png
+08_conflict_resolution.png
+09_master_1.png
+10_master_2.png
+11_submitto_api.png
+12_merge_parallel_branches.png
+13_sequential_commits.png
+14_soft_reset.png
+15_recommit.png
+16_rebase.png
+17_git_log_graph.png
+18_github_final.png

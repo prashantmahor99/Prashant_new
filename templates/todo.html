@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps To-Do Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="card">
+        <h1>DevOps To-Do Form</h1>
+        <p>Enter the item details and submit them to MongoDB Atlas.</p>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('submit_todo') }}">
+            <label for="item_name">Item Name</label>
+            <input id="item_name" name="item_name" type="text" required>
+
+            <label for="item_description">Item Description</label>
+            <textarea id="item_description" name="item_description" required></textarea>
+
+            <label for="item_id">Item ID</label>
+            <input id="item_id" name="item_id" type="text" required>
+
+            <label for="item_uuid">Item UUID</label>
+            <input id="item_uuid" name="item_uuid" type="text" required>
+
+            <label for="item_hash">Item Hash</label>
+            <input id="item_hash" name="item_hash" type="text" required>
+
+            <button type="submit">Save To-Do</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,163 @@
+GIT & GITHUB DEVOPS ASSIGNMENT - COMMAND GUIDE
+===============================================
+
+IMPORTANT:
+- Replace YOUR_GITHUB_USERNAME and YOUR_REPOSITORY_NAME with your real details.
+- Use your own GitHub account for SSH and push commands.
+- Take a screenshot after each important command/output.
+
+TASK 1 - REPOSITORY SETUP & FIRST BRANCH
+----------------------------------------
+1) Create a new empty GitHub repository in the GitHub website.
+
+2) Generate SSH key if required:
+ssh-keygen -t ed25519 -C "your_email@example.com"
+cat ~/.ssh/id_ed25519.pub
+
+Add the public key to GitHub > Settings > SSH and GPG keys.
+Test:
+ssh -T git@github.com
+
+Clone using SSH:
+git clone git@github.com:YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git
+cd YOUR_REPOSITORY_NAME
+
+3) Create a branch named after your username:
+git checkout -b prashant
+
+4) Copy/add this Flask project into the cloned repository, then:
+git add .
+git commit -m "Add Flask project on user branch"
+
+5) Merge into main:
+git checkout main
+git merge prashant
+git push origin main
+git push origin prashant
+
+TASK 2 - UPDATE JSON & RESOLVE CONFLICTS
+----------------------------------------
+6) Create new branch:
+git checkout -b prashant_new
+
+7) Edit data/api_data.json, for example change the message/status.
+git add data/api_data.json
+git commit -m "Update API JSON data"
+
+8) Merge into main:
+git checkout main
+git merge prashant_new
+
+9) If a conflict occurs:
+git status
+# Open the conflicted file and keep the desired changes.
+# Remove <<<<<<<, ======= and >>>>>>> markers.
+git add data/api_data.json
+git commit -m "Resolve JSON merge conflict"
+
+10) Push:
+git push origin main
+git push origin prashant_new
+
+TASK 3 - PARALLEL FEATURE DEVELOPMENT
+-------------------------------------
+11) Create two branches from main:
+git checkout main
+git checkout -b master_1
+git checkout main
+git checkout -b master_2
+
+12) Feature in master_1 - To-Do frontend with Item Name and Item Description:
+git checkout master_1
+# Edit templates/todo.html
+git add templates/todo.html static/style.css
+git commit -m "Add To-Do frontend form"
+
+13) Backend in master_2 - POST /submitto and MongoDB insert:
+git checkout master_2
+# Edit app.py and requirements.txt
+git add app.py requirements.txt .env.example .gitignore
+git commit -m "Add submitto API and MongoDB storage"
+
+14) Merge both branches into main:
+git checkout main
+git merge master_1
+git merge master_2
+git push origin main
+
+TASK 4 - SEQUENTIAL COMMITS, RESET & REBASE
+-------------------------------------------
+15) Enhance master_1 with Item ID, Item UUID and Item Hash:
+git checkout master_1
+# Add Item ID field, then commit.
+git add templates/todo.html
+git commit -m "Add Item ID field"
+
+# Add Item UUID field, then commit.
+git add templates/todo.html
+git commit -m "Add Item UUID field"
+
+# Add Item Hash field, then commit.
+git add templates/todo.html
+git commit -m "Add Item Hash field"
+
+16) Confirm three separate commits:
+git log --oneline -5
+
+17) Merge master_1 into main:
+git checkout main
+git merge master_1
+
+18) Soft reset to before the Item ID change while keeping changes staged:
+git log --oneline
+# Copy the commit hash immediately BEFORE "Add Item ID field".
+git reset --soft <COMMIT_BEFORE_ITEM_ID>
+git status
+
+Re-commit and restore main history:
+git commit -m "Recommit To-Do enhancements after soft reset"
+
+IMPORTANT: If the reset also removed unrelated main commits from history, do not push yet.
+Use git reflog to recover the desired main state before continuing.
+
+19) Rebase updated main changes onto master_1 while preserving commits:
+git checkout master_1
+git rebase main
+
+Equivalent two-argument form requested in the assignment:
+git rebase main master_1
+
+Check history:
+git log --oneline --graph --decorate --all
+
+Push branches:
+git push origin main
+git push origin master_1
+git push origin master_2
+
+If master_1 was already pushed before rebase, update it safely with:
+git push --force-with-lease origin master_1
+
+FINAL CHECKS
+------------
+git status
+git branch
+git log --oneline --graph --decorate --all
+
+Run Flask:
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+python3 app.py
+
+Test:
+http://127.0.0.1:5000/
+http://127.0.0.1:5000/api
+
+FINAL SUBMISSION
+----------------
+- Put genuine screenshots in screenshots/.
+- Paste the screenshots into Git_and_GitHub_Documentation.docx.
+- Add your real GitHub repository URL to the document.
+- Compress the whole folder as Git_and_GitHub_Prashant.zip.
