@@ -28,7 +28,7 @@ def api():
     return jsonify(payload)
 
 
-@app.route("/", methods=["GET"])
+@app.route("/todo", methods=["GET"])
 def home():
     return render_template("todo.html", error=None)
 
