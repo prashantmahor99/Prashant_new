@@ -7,15 +7,15 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 from pymongo import MongoClient
 
-load_dotenv()
+load_dotenv(override=True)
 
 app = Flask(__name__)
 
 
 def get_collection():
-    mongo_uri = os.getenv("MONGO_URI")
+    mongo_uri = os.getenv("MONGO_URI", "").strip()
     if not mongo_uri:
-        raise RuntimeError("MONGO_URI is not configured. Copy .env.example to .env and add your MongoDB Atlas URI.")
+        raise RuntimeError("MONGO_URI is not configured. Copy .env to .env and add your MongoDB Atlas URI.")
     client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
     db = client[os.getenv("MONGO_DB", "devops_assignment")]
     return db[os.getenv("MONGO_COLLECTION", "todos")]
@@ -29,11 +29,12 @@ def api():
 
 
 @app.route("/todo", methods=["GET"])
+@app.route("/", methods=["GET"])
 def home():
     return render_template("todo.html", error=None)
 
 
-@app.route("/submitto", methods=["POST"])
+@app.route("/submittodoitem", methods=["POST", "GET"])
 def submit_todo():
     item_name = request.form.get("item_name", "").strip()
     item_description = request.form.get("item_description", "").strip()
@@ -73,3 +74,4 @@ def generate_values():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
