@@ -1,5 +1,7 @@
 {
-  "message": "Hello from Flask API",
-  "project": "Git and GitHub DevOps Assignment",
-  "status": "ready"
+  "Name": "Prashant Mahor",
+  "username": "prashantmahor99_new",
+  "status": "ready",
+  "Project": "Git and GitHub DevOps Assignment"
+
 }
